@@ -44,6 +44,11 @@ class MyAppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void removeFavorites(favorite) {
+    favorites.remove(favorite);
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -129,7 +134,16 @@ class FavoritesPage extends StatelessWidget {
         ),
         for (var favorite in favorites)
           ListTile(
-            leading: Icon(Icons.favorite),
+            leading: IconButton(
+              icon: Icon(
+                Icons.delete_outline,
+                semanticLabel: 'Delete',
+              ),
+              color: theme.colorScheme.primary,
+              onPressed: () {
+                appState.removeFavorites(favorite);
+              },
+            ),
             title: Text(favorite.asLowerCase),
           ),
       ],
